@@ -116,6 +116,7 @@ func (wh *WebHook) Stop() error {
 
 func (wh *WebHook) serve(w http.ResponseWriter, r *http.Request) {
 	var body []byte
+	glog.Info("get request", r.RemoteAddr, r.RequestURI)
 	if r.Body != nil {
 		data, err := ioutil.ReadAll(r.Body)
 		if err != nil {

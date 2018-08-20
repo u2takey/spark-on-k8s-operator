@@ -1,0 +1,7 @@
+# docker build -t ccr.ccs.tencentyun.com/mla-library/spark:v2.4.0 -f Dockerfile.spark.2.4 .
+FROM gcr.io/spark-operator/spark-py:v2.4.0-SNAPSHOT
+RUN apk update \
+	&& apk add tzdata \
+	&& rm -rf /var/cache/apk/* \
+	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+	&& echo "Asia/Shanghai" > /etc/timezone

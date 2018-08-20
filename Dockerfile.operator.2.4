@@ -1,0 +1,14 @@
+# go generate && CGO_ENABLED=0 GOOS=linux go build .
+# docker build -t ccr.ccs.tencentyun.com/mla-library/spark-operator:v2.4.0-v1alpha1-0.3 -f Dockerfile.operator.2.4  .
+FROM gcr.io/spark-operator/spark-py:v2.4.0-SNAPSHOT
+COPY spark-on-k8s-operator /usr/bin/spark-operator
+RUN apk update \
+	&& apk add tzdata \
+	&& apk add openssl \
+	&& apk add curl \
+	&& rm -rf /var/cache/apk/* \
+	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+	&& echo "Asia/Shanghai" > /etc/timezone
+COPY hack/gencerts.sh /usr/bin/
+COPY hack/delete-resource.sh /usr/bin/
+ENTRYPOINT ["/usr/bin/spark-operator"]
